@@ -1,0 +1,22 @@
+
+
+| 配置项 / 环境变量                                             | 英文全称                     | 作用 / 说明            | 备注                                 |
+| ------------------------------------------------------ | ------------------------ | ------------------ | ---------------------------------- |
+| `image: ollama/ollama:latest`                          | -                        | Docker 镜像名称        | 拉取最新 Ollama 镜像                     |
+| `container_name: ollama`                               | -                        | 容器名称               | Docker 内部使用                        |
+| `ports: "11434:11434"`                                 | -                        | 端口映射               | 容器内 11434 端口映射到宿主机 11434 端口        |
+| `volumes: /data1/ollama:/root/.ollama`                 | -                        | 挂载卷                | 持久化模型、数据和配置                        |
+| `deploy.resources.reservations.devices.driver: nvidia` | -                        | GPU 驱动             | 指定 NVIDIA GPU                      |
+| `device_ids: ["1", "2"]`                               | -                        | GPU ID             | 使用主机上的第 1、2 张 GPU                  |
+| `capabilities: [gpu]`                                  | -                        | 资源能力               | 表示这是 GPU 资源                        |
+| `NVIDIA_VISIBLE_DEVICES=1,2`                           | NVIDIA_VISIBLE_DEVICES   | NVIDIA 驱动可见 GPU 列表 | 映射主机 GPU 到容器                       |
+| `CUDA_VISIBLE_DEVICES=0,1`                             | CUDA_VISIBLE_DEVICES     | CUDA 可见 GPU 列表     | 容器内部 GPU0 对应宿主 GPU1，GPU1 对应宿主 GPU2 |
+| `OLLAMA_ORIGIN=*`                                      | Ollama Origin            | 允许访问来源             | 用于跨域或客户端访问控制                       |
+| `OLLAMA_CONTEXT_LENGTH=100000`                         | Ollama Context Length    | 上下文长度              | 模型处理的最大 token 数量                   |
+| `OLLAMA_MAX_LOADED_MODELS=3`                           | Ollama Max Loaded Models | 最大可同时加载模型数量        | 避免显存超载                             |
+| `OLLAMA_KEEP_ALIVE=-1`                                 | Ollama Keep Alive        | 模型常驻时间             | `-1` 表示永久常驻，不卸载                    |
+| `OLLAMA_NUM_PARALLEL=4`                                | Ollama Num Parallel      | 并行推理数量             | 单个模型可同时处理的请求数                      |
+| `OLLAMA_NUM_GPU=2`                                     | Ollama Num GPU           | 使用 GPU 数量          | 仅在模型支持多卡拆分时生效                      |
+| `OLLAMA_MAIN_GPU=0`                                    | Ollama Main GPU          | 主 GPU ID           | 用于存放主权重/输出层，通常设为 GPU0              |
+| `OLLAMA_SCHED_SPREAD=1`                                | Ollama Scheduler Spread  | 调度分散               | 尝试把模型权重/KV cache 均匀分布到多 GPU        |
+| `restart: unless-stopped`                              | -                        | 重启策略               | 容器异常停止会自动重启，除非手动停止                 |
